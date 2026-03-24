@@ -1,0 +1,48 @@
+// 5.1  tous les Jouets : fusion de toutes les listes
+//On parcourt chaque sous-liste et on ajoute tout dans une seule ArrayList. Les doublons sont conservés.
+public static List<JouetDeBain> tousLesJouets(List<List<JouetDeBain>> catalogues) {
+    List<JouetDeBain> resultat = new ArrayList<>();
+    for (List<JouetDeBain> catalogue : catalogues) {
+        resultat.addAll(catalogue);
+    }
+    return resultat;
+}
+// 5.2 – jouetsUniques : ensemble trié par nom
+public static Set<JouetDeBain> jouetsUniques(List<List<JouetDeBain>> catalogues) {
+    Set<JouetDeBain> resultat = new TreeSet<>(Comparator.comparing(JouetDeBain::getNom));
+    for (List<JouetDeBain> catalogue : catalogues) {
+        resultat.addAll(catalogue);
+    }
+    return resultat;
+}
+/*
+On utilise un TreeSet car c'est l'implémentation de Set qui maintient un ordre de tri. On lui passe un Comparator qui compare les jouets par leur nom. Attention :
+dans un TreeSet, 
+deux éléments sont considérés égaux si le comparateur renvoie 0, donc deux jouets avec le même nom seront dédoublonnés même si leurs autres attributs diffèrent.
+*/
+// 5.3 - plusGrandsCanards : les n plus grands canards
+public static List<JouetDeBain> plusGrandsCanards(List<JouetDeBain> jouets, int n) {
+    List<CanardEnPlastique> canards = new ArrayList<>();
+    for (JouetDeBain j : jouets) {
+        if (j instanceof CanardEnPlastique) {
+            canards.add((CanardEnPlastique) j);
+        }
+    }
+    canards.sort(Comparator.comparingDouble(CanardEnPlastique::getTaille).reversed());
+    return new ArrayList<>(canards.subList(0, Math.min(n, canards.size())));
+}
+// 5.4 – Bonus : réécriture sans boucle for, uniquement avec Collections
+public static List<JouetDeBain> plusGrandsCanardsBis(List<JouetDeBain> jouets, int n) {
+    // Étape 1 : filtrer les canards via removeIf (pas de boucle for)
+    List<JouetDeBain> canards = new ArrayList<>(jouets);
+    canards.removeIf(j -> !(j instanceof CanardEnPlastique));
+
+    // Étape 2 : trier par taille croissante
+    Collections.sort(canards, Comparator.comparingDouble(j -> ((CanardEnPlastique) j).getTaille()));
+
+    // Étape 3 : inverser → taille décroissante
+    Collections.reverse(canards);
+
+    // Étape 4 : garder les n premiers
+    return new ArrayList<>(canards.subList(0, Math.min(n, canards.size())));
+}
