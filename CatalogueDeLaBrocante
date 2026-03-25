@@ -1,0 +1,39 @@
+// 5.1 – Catalogue par vendeur
+public static Map<String, List<JouetDeBain>> catalogueParVendeur(
+        List<String> vendeurs, List<List<JouetDeBain>> listes) {
+    Map<String, List<JouetDeBain>> resultat = new LinkedHashMap<>();
+    for (int i = 0; i < vendeurs.size(); i++)
+        resultat.put(vendeurs.get(i), listes.get(i));
+    return resultat;
+}
+
+// 5.2 – Nombre de jouets par vendeur
+public static Map<String, Integer> nombreJouetsParVendeur(
+        Map<String, List<JouetDeBain>> catalogue) {
+    Map<String, Integer> resultat = new LinkedHashMap<>();
+    for (Map.Entry<String, List<JouetDeBain>> e : catalogue.entrySet())
+        resultat.put(e.getKey(), e.getValue().size());
+    return resultat;
+}
+
+// 5.3 – Vendeur le plus riche
+public static String vendeurLePlusRiche(Map<String, List<JouetDeBain>> catalogue) {
+    String meilleur = null;
+    int max = -1;
+    for (Map.Entry<String, List<JouetDeBain>> e : catalogue.entrySet())
+        if (e.getValue().size() > max) {
+            max = e.getValue().size();
+            meilleur = e.getKey();
+        }
+    return meilleur;
+}
+
+// 5.4 Bonus – Première occurrence
+public static Map<String, JouetDeBain> premiereOccurrence(
+        Map<String, List<JouetDeBain>> catalogue) {
+    Map<String, JouetDeBain> resultat = new LinkedHashMap<>();
+    for (Map.Entry<String, List<JouetDeBain>> e : catalogue.entrySet())
+        if (!e.getValue().isEmpty())
+            resultat.put(e.getKey(), e.getValue().get(0));
+    return resultat;
+}
