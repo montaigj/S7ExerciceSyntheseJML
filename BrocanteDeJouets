@@ -1,3 +1,4 @@
+Séance 8 - Exercices : listes et ensembles
 // 5.1  tous les Jouets : fusion de toutes les listes
 //On parcourt chaque sous-liste et on ajoute tout dans une seule ArrayList. Les doublons sont conservés.
 public static List<JouetDeBain> tousLesJouets(List<List<JouetDeBain>> catalogues) {
